@@ -5,7 +5,6 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
 
-    this.onInputChange = this.onInputChange.bind(this);
     this.loginSubmitFunction = this.loginSubmitFunction.bind(this);
 
     this.state = {
@@ -14,7 +13,27 @@ class Login extends React.Component {
     };
   }
 
-  onInputChange({ target }) {
+  passwordValidation = (password) => {
+    const PASSWORDLENGTH = 6;
+    return password.length >= PASSWORDLENGTH;
+  }
+
+  emailValidation = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
+  // informação de validacao de email por regex https://stackoverflow.com/a/9204568
+
+  formValidation = (email, password) => {
+    const { emailValidation, passwordValidation } = this;
+    if (emailValidation(email) && passwordValidation(password)) {
+      return false;
+    }
+    return true;
+  }
+
+  onInputChange = ({ target }) => {
     const { id } = target;
     const { value } = target;
     this.setState({
@@ -28,13 +47,15 @@ class Login extends React.Component {
 
   render() {
     const { email, password } = this.state;
+    const { loginSubmitFunction, onInputChange, formValidation } = this;
     return (
       <div>
         <LoginForm
           email={ email }
           password={ password }
-          loginSubmit={ this.loginSubmitFunction }
-          onChange={ this.onInputChange }
+          loginSubmit={ loginSubmitFunction }
+          onChange={ onInputChange }
+          disabled={ formValidation(email, password) }
         />
       </div>
     );
