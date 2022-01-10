@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import LoginForm from '../components/LoginForm';
 
 class Login extends React.Component {
@@ -42,8 +43,12 @@ class Login extends React.Component {
   }
 
   loginSubmitFunction = () => {
+    const { history } = this.props;
     console.log(this.state);
+    history.push('/carteira');
   }
+
+  // history.push retirado do exercicio exercise-forms-redux
 
   render() {
     const { email, password } = this.state;
@@ -61,5 +66,11 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default Login;
