@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import LoginForm from '../components/LoginForm';
+import { userLogin } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -43,9 +45,11 @@ class Login extends React.Component {
   }
 
   loginSubmitFunction = () => {
-    const { history } = this.props;
-    console.log(this.state);
+    const { history, userLoginProps } = this.props;
+    const { email } = this.state;
+    userLoginProps(email);
     history.push('/carteira');
+    // console.log(this.state);
   }
 
   // history.push retirado do exercicio exercise-forms-redux
@@ -71,6 +75,11 @@ Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  userLoginProps: PropTypes.func.isRequired,
 };
 
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  userLoginProps: (email) => { dispatch(userLogin(email)); },
+});
+
+export default connect(null, mapDispatchToProps)(Login);
