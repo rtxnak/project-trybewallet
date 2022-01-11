@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCurrenciesThunk } from '../actions';
+import {
+  addExpenseThunk,
+  getCurrenciesThunk,
+} from '../actions';
 
 class ExpenseForm extends React.Component {
   constructor(props) {
@@ -28,8 +31,15 @@ class ExpenseForm extends React.Component {
     });
   }
 
-  expenseSubmit = async () => {
-    console.log(this.state);
+  expenseSubmit = async (event) => {
+    event.preventDefault();
+    const { addExpenseProp } = this.props;
+    addExpenseProp(this.state);
+    this.setState({
+      value: '',
+      description: '',
+    });
+    // console.log(this.state);
   }
 
   render() {
@@ -43,7 +53,7 @@ class ExpenseForm extends React.Component {
 
     const { onInputChange, expenseSubmit } = this;
     const { currencies } = this.props;
-    console.log(currencies);
+    // console.log(currencies);
 
     return (
       <form>
@@ -140,6 +150,7 @@ class ExpenseForm extends React.Component {
 ExpenseForm.propTypes = {
   currencies: PropTypes.arrayOf(PropTypes.any).isRequired,
   getCurrenciesProp: PropTypes.func.isRequired,
+  addExpenseProp: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -148,6 +159,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getCurrenciesProp: () => dispatch(getCurrenciesThunk()),
+  addExpenseProp: (expenses) => dispatch(addExpenseThunk(expenses)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);
