@@ -5,14 +5,16 @@ class ExpenseTable extends React.Component {
     return (
       <table>
         <thead>
-          <th>Descrição</th>
-          <th>Tag</th>
-          <th>Método de pagamento</th>
-          <th>Valor</th>
-          <th>Moeda</th>
-          <th>Câmbio utilizado</th>
-          <th>Valor convertido</th>
-          <th>Moeda de conversão</th>
+          <tr>
+            <th>Descrição</th>
+            <th>Tag</th>
+            <th>Método de pagamento</th>
+            <th>Valor</th>
+            <th>Moeda</th>
+            <th>Câmbio utilizado</th>
+            <th>Valor convertido</th>
+            <th>Moeda de conversão</th>
+          </tr>
         </thead>
         <tbody>
           <tr>
