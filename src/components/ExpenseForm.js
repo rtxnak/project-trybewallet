@@ -1,5 +1,7 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getCurrenciesThunk } from '../actions';
 
 class ExpenseForm extends React.Component {
   constructor(props) {
@@ -14,6 +16,11 @@ class ExpenseForm extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { getCurrenciesProp } = this.props;
+    getCurrenciesProp();
+  }
+
   onInputChange = ({ target }) => {
     const { id, value } = target;
     this.setState({
@@ -21,7 +28,7 @@ class ExpenseForm extends React.Component {
     });
   }
 
-  expenseSubmit = () => {
+  expenseSubmit = async () => {
     console.log(this.state);
   }
 
@@ -35,6 +42,8 @@ class ExpenseForm extends React.Component {
     } = this.state;
 
     const { onInputChange, expenseSubmit } = this;
+    const { currencies } = this.props;
+    console.log(currencies);
 
     return (
       <form>
@@ -72,12 +81,15 @@ class ExpenseForm extends React.Component {
             value={ currency }
             onChange={ onInputChange }
           >
-            <option
-              value="USD"
-              key={ 0 }
-            >
-              USD
-            </option>
+            {currencies.map((option, i) => (
+              <option
+                value={ option }
+                key={ i }
+                data-testid={ option }
+              >
+                { option }
+              </option>
+            ))}
           </select>
         </label>
 
@@ -125,14 +137,17 @@ class ExpenseForm extends React.Component {
   }
 }
 
-// ExpenseForm.propTypes = {
-//   value: PropTypes.string.isRequired,
-//   description: PropTypes.string.isRequired,
-//   currency: PropTypes.string.isRequired,
-//   method: PropTypes.string.isRequired,
-//   tag: PropTypes.string.isRequired,
-//   onChange: PropTypes.func.isRequired,
-//   expenseSubmit: PropTypes.func.isRequired,
-// };
+ExpenseForm.propTypes = {
+  currencies: PropTypes.arrayOf(PropTypes.any).isRequired,
+  getCurrenciesProp: PropTypes.func.isRequired,
+};
 
-export default ExpenseForm;
+const mapStateToProps = (state) => ({
+  currencies: state.wallet.currencies,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getCurrenciesProp: () => dispatch(getCurrenciesThunk()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ExpenseForm);
