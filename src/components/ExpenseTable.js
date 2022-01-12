@@ -14,6 +14,7 @@ class ExpenseTable extends React.Component {
             <th>Câmbio utilizado</th>
             <th>Valor convertido</th>
             <th>Moeda de conversão</th>
+            <th>Editar/Excluir</th>
           </tr>
         </thead>
         <tbody>
@@ -26,6 +27,7 @@ class ExpenseTable extends React.Component {
             <td>Câmbio utilizado</td>
             <td>Valor convertido</td>
             <td>Moeda de conversão</td>
+            <td>Editar/Excluir</td>
           </tr>
         </tbody>
       </table>
